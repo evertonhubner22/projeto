@@ -1,0 +1,51 @@
+/* ============================================================
+   graficos-svg.css — estilos dos gráficos em SVG (js/graficos-svg.js)
+   ============================================================ */
+
+.gsvg { display: flex; flex-direction: column; width: 100%; height: 100%; min-width: 0; }
+.gsvg__area { position: relative; flex: 1 1 auto; min-height: 0; }
+.gsvg__area > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.gsvg text { font-family: inherit; font-size: 12px; font-weight: 600; }
+.gsvg__hit { cursor: default; }
+
+/* Legenda */
+.gsvg__legenda {
+  display: flex; flex-wrap: wrap; gap: 6px 16px; padding-top: 10px;
+  font-size: 0.78rem; font-weight: 600; color: var(--cor-texto-suave);
+}
+.gsvg__item { display: inline-flex; align-items: center; gap: 7px; }
+.gsvg__ponto { width: 9px; height: 9px; border-radius: 3px; flex-shrink: 0; }
+
+/* Tooltip */
+.gsvg__tip {
+  position: absolute; top: 0; left: 0; z-index: 5;
+  padding: 10px 12px; border-radius: 12px;
+  font-size: 0.78rem; font-weight: 600; line-height: 1.5; white-space: nowrap;
+  color: #E4EFE9; pointer-events: none;
+  opacity: 0; transition: opacity 0.12s ease;
+}
+.gsvg__tip--visivel { opacity: 1; }
+.gsvg__tip strong { display: block; color: #FFFFFF; font-weight: 800; margin-bottom: 2px; }
+.gsvg__tip-linha { display: flex; align-items: center; gap: 8px; }
+.gsvg__tip-ponto { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* Rosca */
+.gsvg__fatia { transition: transform 0.15s ease-out; }
+
+/* Entrada (só na primeira renderização; respeita "reduzir movimento") */
+@keyframes gsvg-cresce { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes gsvg-cresce-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes gsvg-traca { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes gsvg-aparece { from { opacity: 0; } to { opacity: 1; } }
+@keyframes gsvg-rosca { from { opacity: 0; transform: rotate(-14deg) scale(0.94); } to { opacity: 1; transform: none; } }
+
+.gsvg--anima .gsvg__barra { transform-box: fill-box; transform-origin: 50% 100%; animation: gsvg-cresce 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.gsvg--anima .gsvg__barra-h { transform-box: fill-box; transform-origin: 0 50%; animation: gsvg-cresce-x 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.gsvg--anima .gsvg__linha { stroke-dasharray: 1; animation: gsvg-traca 0.9s ease-out both; }
+.gsvg--anima .gsvg__area-linha, .gsvg--anima .gsvg__ponto-linha { animation: gsvg-aparece 0.9s ease-out both; }
+.gsvg--anima .gsvg__rosca { transform-box: fill-box; transform-origin: center; animation: gsvg-rosca 0.7s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gsvg--anima * { animation: none !important; }
+  .gsvg__fatia, .gsvg__tip { transition: none; }
+}

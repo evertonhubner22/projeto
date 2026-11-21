@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F3D2E">
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem('cg_theme') || 'light';
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch (e) {}
+    })();
+  </script>
+  <title>Perfil — FinFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/perfil.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-pagina="perfil" data-titulo="Perfil" data-subtitulo="Gerencie os dados da sua conta">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="conteudo">
+      <header class="topo" id="topo"></header>
+
+      <main class="pagina">
+        <header class="cabecalho-pagina">
+          <div>
+            <h1>Meu perfil</h1>
+            <p>Gerencie seus dados pessoais, sua senha e a aparência do sistema.</p>
+          </div>
+        </header>
+
+        <div class="grade-perfil">
+          <div class="coluna-perfil">
+            <article class="card perfil-cartao">
+              <div class="perfil-cartao__capa"></div>
+              <div class="perfil-cartao__corpo">
+                <div class="perfil-avatar-wrap">
+                  <div class="perfil-avatar" id="perfil-avatar">
+                    <img id="perfil-foto" class="oculto" alt="Foto de perfil">
+                    <span id="perfil-iniciais"></span>
+                  </div>
+                  <label class="perfil-avatar-editar" title="Alterar foto">
+                    <i data-lucide="camera"></i>
+                    <input type="file" id="input-foto-perfil" accept="image/*">
+                    <span class="sr-only">Alterar foto</span>
+                  </label>
+                </div>
+                <h3 id="perfil-nome-exibicao"></h3>
+                <p class="perfil-cartao__email" id="perfil-email-exibicao"></p>
+                <div class="perfil-cartao__selos">
+                  <span class="badge badge--neutro" id="perfil-membro-desde"></span>
+                </div>
+                <div class="perfil-cartao__acoes">
+                  <button class="botao botao--texto oculto" id="botao-remover-foto" type="button">Remover foto</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="card card-formulario">
+              <h3>Aparência</h3>
+              <p>Escolha o tema que for mais confortável para você.</p>
+              <div class="opcoes-tema">
+                <button type="button" class="opcao-tema" data-tema-opcao="light">
+                  <span class="opcao-tema__previa opcao-tema__previa--claro"><i></i><i></i></span>
+                  <span class="opcao-tema__rotulo">Claro<i data-lucide="circle-check"></i></span>
+                </button>
+                <button type="button" class="opcao-tema" data-tema-opcao="dark">
+                  <span class="opcao-tema__previa opcao-tema__previa--escuro"><i></i><i></i></span>
+                  <span class="opcao-tema__rotulo">Escuro<i data-lucide="circle-check"></i></span>
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <div class="coluna-perfil">
+            <article class="card card-formulario">
+              <h3>Dados pessoais</h3>
+              <p>Essas informações aparecem no menu e no seu perfil.</p>
+              <form id="form-perfil" novalidate>
+                <div class="campo" id="campo-perfil-nome">
+                  <label for="perfil-nome">Nome completo</label>
+                  <div class="input-grupo"><i data-lucide="user-round"></i><input type="text" id="perfil-nome" required></div>
+                  <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe seu nome.</span></span>
+                </div>
+                <div class="campo" id="campo-perfil-email">
+                  <label for="perfil-email">E-mail</label>
+                  <div class="input-grupo"><i data-lucide="mail"></i><input type="email" id="perfil-email" required></div>
+                  <span class="campo-erro"><i data-lucide="circle-alert"></i><span>E-mail inválido ou já usado por outra conta.</span></span>
+                </div>
+                <button type="submit" class="botao botao--primario">Salvar alterações</button>
+              </form>
+            </article>
+
+            <article class="card card-formulario">
+              <h3>Alterar senha</h3>
+              <p>Use pelo menos 8 caracteres.</p>
+              <form id="form-senha" novalidate>
+                <div class="campo" id="campo-senha-atual">
+                  <label for="senha-atual">Senha atual</label>
+                  <div class="input-grupo"><i data-lucide="lock"></i><input type="password" id="senha-atual" required></div>
+                  <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Senha atual incorreta.</span></span>
+                </div>
+                <div class="linha-campos">
+                  <div class="campo" id="campo-nova-senha">
+                    <label for="nova-senha">Nova senha</label>
+                    <div class="input-grupo"><i data-lucide="lock-keyhole"></i><input type="password" id="nova-senha" required></div>
+                    <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Mínimo de 8 caracteres.</span></span>
+                  </div>
+                  <div class="campo" id="campo-confirmar-nova-senha">
+                    <label for="confirmar-nova-senha">Confirmar nova senha</label>
+                    <div class="input-grupo"><i data-lucide="lock-keyhole"></i><input type="password" id="confirmar-nova-senha" required></div>
+                    <span class="campo-erro"><i data-lucide="circle-alert"></i><span>As senhas não coincidem.</span></span>
+                  </div>
+                </div>
+                <button type="submit" class="botao botao--secundario">Atualizar senha</button>
+              </form>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../js/icones.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/perfil.js"></script>
+</body>
+</html>

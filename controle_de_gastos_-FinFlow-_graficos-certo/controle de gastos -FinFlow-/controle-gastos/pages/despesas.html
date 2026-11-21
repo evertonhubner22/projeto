@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F3D2E">
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem('cg_theme') || 'light';
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch (e) {}
+    })();
+  </script>
+  <title>Despesas — FinFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/lancamentos.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-pagina="despesas" data-titulo="Despesas" data-subtitulo="Gerencie suas saídas financeiras">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="conteudo">
+      <header class="topo" id="topo"></header>
+
+      <main class="pagina">
+        <header class="cabecalho-pagina">
+          <div>
+            <h1>Despesas</h1>
+            <p>Controle suas saídas, categorias e compras parceladas em um só lugar.</p>
+          </div>
+          <div class="cabecalho-pagina__acoes">
+            <button class="botao botao--primario" id="botao-nova-despesa" type="button"><i data-lucide="plus"></i>Nova despesa</button>
+          </div>
+        </header>
+
+        <section class="grade-cards grade-cards--3" id="resumo-despesas" aria-label="Resumo de despesas"></section>
+
+        <section class="card card--sem-padding">
+          <div class="barra-filtros">
+            <div class="input-busca" id="campo-busca-despesas">
+              <i data-lucide="search"></i>
+              <input type="text" id="busca-despesas" placeholder="Pesquisar por descrição…" autocomplete="off" aria-label="Pesquisar despesas">
+              <button type="button" class="input-busca__limpar" id="limpar-busca-despesas" aria-label="Limpar busca"><i data-lucide="x"></i></button>
+            </div>
+            <select class="select-filtro" id="filtro-categoria-despesa" aria-label="Filtrar por categoria">
+              <option value="">Todas as categorias</option>
+              <option>Alimentação</option>
+              <option>Transporte</option>
+              <option>Saúde</option>
+              <option>Educação</option>
+              <option>Lazer</option>
+              <option>Moradia</option>
+              <option>Contas</option>
+              <option>Investimentos</option>
+              <option>Outros</option>
+            </select>
+            <select class="select-filtro" id="filtro-pagamento-despesa" aria-label="Filtrar por forma de pagamento">
+              <option value="">Toda forma de pagamento</option>
+              <option>PIX</option>
+              <option>Dinheiro</option>
+              <option>Cartão de Crédito</option>
+              <option>Cartão de Débito</option>
+              <option>Boleto</option>
+            </select>
+            <span class="barra-filtros__contagem" id="contagem-despesas"></span>
+          </div>
+
+          <div class="tabela-wrap">
+            <table class="tabela tabela--empilhada">
+              <thead>
+                <tr>
+                  <th>Descrição</th>
+                  <th>Categoria</th>
+                  <th>Pagamento</th>
+                  <th>Data</th>
+                  <th class="num">Valor</th>
+                  <th><span class="sr-only">Ações</span></th>
+                </tr>
+              </thead>
+              <tbody id="corpo-tabela-despesas"></tbody>
+            </table>
+          </div>
+
+          <div id="estado-vazio-despesas" class="estado-vazio oculto"></div>
+
+          <div class="paginacao-wrap">
+            <div class="paginacao-info" id="paginacao-info-despesas"></div>
+            <div class="paginacao" id="paginacao-despesas"></div>
+          </div>
+        </section>
+
+        <section class="card" id="card-parcelas">
+          <div class="card-cabecalho">
+            <div>
+              <h3>Parcelas a pagar</h3>
+              <p>Compras parceladas no cartão de crédito com parcelas futuras</p>
+            </div>
+            <div id="resumo-parcelas"></div>
+          </div>
+          <div id="area-parcelas">
+            <div class="parcelas-layout">
+              <div id="lista-parcelas"></div>
+              <div>
+                <div class="titulo-lateral" id="titulo-resumo-mensal"></div>
+                <div id="resumo-mensal"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: nova/editar despesa -->
+  <div class="modal-fundo" id="modal-despesa">
+    <div class="modal">
+      <div class="modal-cabecalho">
+        <div>
+          <h3 id="titulo-modal-despesa">Nova despesa</h3>
+          <p>Registre uma saída de dinheiro.</p>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal="modal-despesa" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-despesa" novalidate>
+        <input type="hidden" id="despesa-id">
+
+        <div class="campo" id="campo-despesa-descricao">
+          <label for="despesa-descricao">Descrição</label>
+          <input type="text" id="despesa-descricao" placeholder="Ex: Supermercado" required>
+          <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe uma descrição.</span></span>
+        </div>
+
+        <div class="linha-campos">
+          <div class="campo" id="campo-despesa-valor">
+            <label for="despesa-valor">Valor (R$)</label>
+            <input type="number" id="despesa-valor" min="0.01" step="0.01" placeholder="0,00" required>
+            <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe um valor maior que zero.</span></span>
+          </div>
+          <div class="campo" id="campo-despesa-data">
+            <label for="despesa-data">Data</label>
+            <input type="date" id="despesa-data" required>
+            <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe uma data válida (não futura).</span></span>
+          </div>
+        </div>
+
+        <div class="linha-campos">
+          <div class="campo" id="campo-despesa-categoria">
+            <label for="despesa-categoria">Categoria</label>
+            <select id="despesa-categoria" required>
+              <option value="">Selecione…</option>
+              <option>Alimentação</option>
+              <option>Transporte</option>
+              <option>Saúde</option>
+              <option>Educação</option>
+              <option>Lazer</option>
+              <option>Moradia</option>
+              <option>Contas</option>
+              <option>Investimentos</option>
+              <option>Outros</option>
+            </select>
+            <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Selecione uma categoria.</span></span>
+          </div>
+          <div class="campo" id="campo-despesa-pagamento">
+            <label for="despesa-pagamento">Forma de pagamento</label>
+            <select id="despesa-pagamento" required>
+              <option value="">Selecione…</option>
+              <option>PIX</option>
+              <option>Dinheiro</option>
+              <option>Cartão de Crédito</option>
+              <option>Cartão de Débito</option>
+              <option>Boleto</option>
+            </select>
+            <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Selecione a forma de pagamento.</span></span>
+          </div>
+        </div>
+
+        <div class="campo oculto" id="campo-despesa-parcelas">
+          <label for="despesa-parcelas">Número de parcelas</label>
+          <select id="despesa-parcelas" required>
+            <option value="1">1x</option>
+            <option value="2">2x</option>
+            <option value="3">3x</option>
+            <option value="4">4x</option>
+            <option value="5">5x</option>
+            <option value="6">6x</option>
+            <option value="7">7x</option>
+            <option value="8">8x</option>
+            <option value="9">9x</option>
+            <option value="10">10x</option>
+            <option value="11">11x</option>
+            <option value="12">12x</option>
+            <option value="13">13x</option>
+            <option value="14">14x</option>
+            <option value="15">15x</option>
+            <option value="16">16x</option>
+            <option value="17">17x</option>
+            <option value="18">18x</option>
+            <option value="19">19x</option>
+            <option value="20">20x</option>
+            <option value="21">21x</option>
+            <option value="22">22x</option>
+            <option value="23">23x</option>
+            <option value="24">24x</option>
+          </select>
+          <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe o número de parcelas.</span></span>
+          <div id="preview-parcelas" class="caixa-previa"></div>
+        </div>
+
+        <div class="modal-rodape">
+          <button type="button" class="botao botao--secundario" data-fechar-modal="modal-despesa">Cancelar</button>
+          <button type="submit" class="botao botao--primario">Salvar despesa</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: confirmar exclusão -->
+  <div class="modal-fundo" id="modal-excluir-despesa">
+    <div class="modal modal--estreito">
+      <div class="modal-aviso-icone"><i data-lucide="trash-2"></i></div>
+      <div class="modal-cabecalho">
+        <h3>Excluir despesa</h3>
+        <button type="button" class="modal-fechar" data-fechar-modal="modal-excluir-despesa" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+      <p class="modal-texto" id="texto-excluir-despesa">Tem certeza que deseja excluir esta despesa? Esta ação não pode ser desfeita.</p>
+      <div class="modal-rodape">
+        <button type="button" class="botao botao--secundario" data-fechar-modal="modal-excluir-despesa">Cancelar</button>
+        <button type="button" class="botao botao--secundario oculto" id="botao-excluir-grupo-despesa">Excluir compra inteira</button>
+        <button type="button" class="botao botao--perigo" id="botao-confirmar-exclusao-despesa">Excluir</button>
+      </div>
+    </div>
+  </div>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../js/icones.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/despesas.js"></script>
+</body>
+</html>

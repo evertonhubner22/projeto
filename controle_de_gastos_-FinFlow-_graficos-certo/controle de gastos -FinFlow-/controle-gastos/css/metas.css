@@ -1,0 +1,61 @@
+/* ============================================================
+   metas.css — cards de metas financeiras
+   ============================================================ */
+
+.grade-metas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+
+.card-meta { position: relative; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+.card-meta__topo { display: flex; align-items: flex-start; gap: 14px; }
+.card-meta__icone {
+  width: 48px; height: 48px; border-radius: 15px; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: var(--cor-receita-fundo); color: var(--cor-receita);
+}
+.card-meta__icone svg.lucide { width: 23px; height: 23px; }
+.card-meta__titulo { flex: 1; min-width: 0; }
+.card-meta__nome { font-size: 1.05rem; font-weight: 800; letter-spacing: -0.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card-meta__prazo { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--cor-texto-suave); margin-top: 3px; }
+.card-meta__prazo svg.lucide { width: 14px; height: 14px; }
+.card-meta__prazo--urgente { color: var(--cor-destaque); }
+.card-meta__prazo--vencido { color: var(--cor-despesa); }
+
+.card-meta__menu { display: flex; gap: 2px; margin: -4px -6px 0 0; }
+
+.card-meta__numeros { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+.card-meta__atual { font-size: 1.55rem; font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+.card-meta__alvo { font-size: 0.8rem; font-weight: 600; color: var(--cor-texto-suave); margin-top: 3px; }
+.card-meta__pct { font-size: 1.15rem; font-weight: 800; color: var(--cor-receita); }
+.card-meta__falta { font-size: 0.8rem; color: var(--cor-texto-suave); font-weight: 600; margin-top: -6px; }
+
+/* meta concluída */
+.card-meta--concluida {
+  border-color: color-mix(in srgb, var(--cor-ouro) 55%, var(--cor-borda));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--cor-destaque-fundo) 70%, var(--cor-superficie)) 0%, var(--cor-superficie) 46%);
+}
+.card-meta--concluida::before {
+  content: '';
+  position: absolute; left: 0; right: 0; top: 0; height: 3px;
+  background: linear-gradient(90deg, var(--cor-ouro), #E8D08A, var(--cor-ouro));
+}
+.card-meta--concluida .card-meta__icone { background: var(--cor-destaque-fundo); color: var(--cor-destaque); }
+.card-meta--concluida .card-meta__pct { color: var(--cor-destaque); }
+.card-meta--concluida .barra-progresso__preenchimento { background: linear-gradient(90deg, var(--cor-ouro), #E3C46E); }
+.selo-concluido {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px 4px 8px; border-radius: 999px;
+  font-size: 0.74rem; font-weight: 800;
+  background: var(--cor-destaque-fundo); color: var(--cor-destaque);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cor-ouro) 50%, transparent);
+}
+.selo-concluido svg.lucide { width: 14px; height: 14px; }
+.card-meta__rodape { display: flex; align-items: center; gap: 8px; margin-top: auto; }
+.card-meta__rodape .botao { flex: 1; }
+
+/* faixa de resumo */
+.resumo-metas { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-bottom: 22px; }
+
+@media (max-width: 1200px) { .grade-metas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) {
+  .grade-metas { grid-template-columns: 1fr; }
+  .resumo-metas { grid-template-columns: 1fr; }
+}
