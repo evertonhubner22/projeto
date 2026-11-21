@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F3D2E">
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem('cg_theme') || 'light';
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch (e) {}
+    })();
+  </script>
+  <title>Entrar — FinFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <div class="tela-auth">
+    <aside class="auth-vitrine">
+      <svg class="auth-vitrine__arte" viewBox="0 0 520 360" fill="none" aria-hidden="true">
+        <g stroke="rgba(234,244,238,0.10)" stroke-width="1">
+          <path d="M0 60H520M0 140H520M0 220H520M0 300H520"/>
+        </g>
+        <path d="M20 280 C 90 270, 120 210, 190 215 S 290 150, 350 130 S 450 60, 500 40 V 340 H20 Z" fill="url(#areaVerde)"/>
+        <path d="M20 280 C 90 270, 120 210, 190 215 S 290 150, 350 130 S 450 60, 500 40" stroke="#E8D08A" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="500" cy="40" r="14" fill="rgba(232,208,138,0.18)"/>
+        <circle cx="500" cy="40" r="6" fill="#E8D08A"/>
+        <g fill="rgba(234,244,238,0.16)">
+          <rect x="60" y="300" width="22" height="40" rx="6"/>
+          <rect x="110" y="284" width="22" height="56" rx="6"/>
+          <rect x="160" y="262" width="22" height="78" rx="6"/>
+          <rect x="210" y="270" width="22" height="70" rx="6"/>
+          <rect x="260" y="238" width="22" height="102" rx="6"/>
+          <rect x="310" y="214" width="22" height="126" rx="6"/>
+        </g>
+        <defs>
+          <linearGradient id="areaVerde" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#3FB586" stop-opacity="0.28"/>
+            <stop offset="1" stop-color="#3FB586" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="auth-vitrine__marca">
+        <div class="logo-selo" aria-hidden="true">F</div>
+        <strong>FinFlow</strong>
+      </div>
+      <div>
+        <h2 class="auth-vitrine__titulo">Seu dinheiro em fluxo, com clareza em cada centavo.</h2>
+        <p class="auth-vitrine__texto">Um controle financeiro pessoal simples e elegante, que mostra para onde o seu dinheiro vai.</p>
+        <ul class="auth-vitrine__lista">
+          <li><span><i data-lucide="trending-up"></i></span>Receitas e despesas em um só lugar</li>
+          <li><span><i data-lucide="target"></i></span>Metas com progresso visível</li>
+          <li><span><i data-lucide="chart-pie"></i></span>Relatórios claros para decidir melhor</li>
+        </ul>
+      </div>
+      <p class="auth-vitrine__rodape">Seus dados ficam salvos com segurança na sua conta.</p>
+    </aside>
+
+    <div class="auth-form-lado">
+      <button class="botao-icone auth-tema" id="botao-tema-auth" type="button"></button>
+      <div class="auth-caixa">
+        <div class="auth-logo-mobile"><div class="logo-selo" aria-hidden="true">F</div><strong>FinFlow</strong></div>
+        <h1>Bem-vindo de volta</h1>
+        <p class="subtitulo">Entre com a sua conta para continuar.</p>
+
+        <form id="form-login" novalidate>
+          <div class="campo" id="campo-email">
+            <label for="email">E-mail</label>
+            <div class="input-grupo">
+              <i data-lucide="mail"></i>
+              <input type="email" id="email" name="email" placeholder="voce@exemplo.com" autocomplete="username" required>
+            </div>
+            <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe um e-mail válido.</span></span>
+          </div>
+
+          <div class="campo" id="campo-senha">
+            <label for="senha">Senha</label>
+            <div class="input-grupo">
+              <i data-lucide="lock"></i>
+              <input type="password" id="senha" name="senha" placeholder="••••••••" autocomplete="current-password" class="com-acao" required>
+              <button type="button" class="alternar-senha" data-alvo="senha" aria-label="Mostrar senha"><i data-lucide="eye"></i></button>
+            </div>
+            <span class="campo-erro"><i data-lucide="circle-alert"></i><span>A senha deve ter pelo menos 8 caracteres.</span></span>
+          </div>
+
+          <div class="auth-linha-acoes">
+            <a href="recuperar-senha.html" class="botao--texto botao">Esqueceu a senha?</a>
+          </div>
+
+          <button type="submit" class="botao botao--primario botao--bloco" id="botao-entrar">Entrar</button>
+        </form>
+
+        <div class="auth-divisor"><span>ou</span></div>
+
+        <button type="button" class="botao botao--bloco botao-google" id="botao-google">
+          <svg viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.5 5.4 2.6 13.2l7.9 6.1C12.4 13.6 17.7 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.5 5.8c4.4-4.1 7.1-10.1 7.1-17.5z"/>
+            <path fill="#FBBC05" d="M10.5 28.7c-.5-1.4-.8-3-.8-4.7s.3-3.2.8-4.7l-7.9-6.1C.9 16.4 0 20.1 0 24s.9 7.6 2.6 10.8l7.9-6.1z"/>
+            <path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.5-5.8c-2.1 1.4-4.9 2.3-8.4 2.3-6.3 0-11.6-4.1-13.5-9.8l-7.9 6.1C6.5 42.6 14.6 48 24 48z"/>
+          </svg>
+          <span>Entrar com Google</span>
+        </button>
+
+        <p class="auth-rodape">Ainda não tem conta? <a href="cadastro.html">Criar conta</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../js/icones.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/login.js"></script>
+  <script type="module" src="../js/login-google.js"></script>
+</body>
+</html>
