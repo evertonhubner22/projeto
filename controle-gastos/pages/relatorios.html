@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F3D2E">
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem('cg_theme') || 'light';
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch (e) {}
+    })();
+  </script>
+  <title>Relatórios — FinFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/relatorios.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-pagina="relatorios" data-titulo="Relatórios" data-subtitulo="Análises e gráficos financeiros">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="conteudo">
+      <header class="topo" id="topo"></header>
+
+      <main class="pagina">
+        <header class="cabecalho-pagina">
+          <div>
+            <h1>Relatórios</h1>
+            <p>Analise para onde vai o seu dinheiro e como suas finanças evoluem ao longo do tempo.</p>
+          </div>
+        </header>
+
+        <section class="secao-relatorio" aria-labelledby="titulo-analise">
+          <div class="barra-periodo">
+            <div class="barra-periodo__controles">
+              <div class="segmentado" role="group" aria-label="Período da análise" id="segmento-periodo">
+                <button type="button" class="segmentado__item" data-periodo="semanal">7 dias</button>
+                <button type="button" class="segmentado__item segmentado__item--ativo" data-periodo="mes">Mês</button>
+                <button type="button" class="segmentado__item" data-periodo="trimestral">3 meses</button>
+                <button type="button" class="segmentado__item" data-periodo="semestral">6 meses</button>
+                <button type="button" class="segmentado__item" data-periodo="anual">12 meses</button>
+              </div>
+              <input type="hidden" id="filtro-periodo" value="mes">
+              <div class="campo campo-mes" id="campo-mes-unico">
+                <input type="month" id="mes-unico-input" aria-label="Escolher mês">
+              </div>
+            </div>
+            <div class="periodo-ativo"><i data-lucide="calendar-range"></i><span id="periodo-ativo"></span></div>
+          </div>
+
+          <div class="secao-relatorio__cabecalho">
+            <h2 id="titulo-analise">Análise do período</h2>
+            <p>Indicadores e gráficos de acordo com o período selecionado.</p>
+          </div>
+
+          <div class="grade-cards" id="resumo-kpis"></div>
+
+          <div class="grade-relatorios">
+            <article class="card span-8">
+              <div class="card-cabecalho">
+                <div><h3>Receitas x Despesas</h3><p id="resumo-receitas-despesas"></p></div>
+              </div>
+              <div class="grafico"><canvas id="grafico-receitas-despesas"></canvas></div>
+            </article>
+
+            <article class="card span-4">
+              <div class="card-cabecalho"><div><h3>Gastos por categoria</h3><p>Distribuição das despesas</p></div></div>
+              <div id="area-categorias">
+                <div class="rosca"><canvas id="grafico-categoria-pizza"></canvas></div>
+                <div class="legenda" id="legenda-categorias"></div>
+              </div>
+              <div id="vazio-categorias" class="oculto"></div>
+            </article>
+
+            <article class="card span-4">
+              <div class="card-cabecalho"><div><h3>Economia do período</h3><p>Quanto sobrou das receitas</p></div></div>
+              <div id="area-economia">
+                <div class="rosca"><canvas id="grafico-economia-area"></canvas></div>
+                <div class="economia-destaque" id="resumo-economia"></div>
+              </div>
+              <div id="vazio-economia" class="oculto"></div>
+            </article>
+
+            <article class="card span-4">
+              <div class="card-cabecalho"><div><h3>Receitas no período</h3><p>Entradas ao longo do tempo</p></div></div>
+              <div class="total-destacado total-destacado--receita valor-monetario" id="total-receitas-periodo"></div>
+              <div class="grafico grafico--pequeno"><canvas id="grafico-receitas-mes"></canvas></div>
+            </article>
+
+            <article class="card span-4">
+              <div class="card-cabecalho"><div><h3>Despesas no período</h3><p>Saídas ao longo do tempo</p></div></div>
+              <div class="total-destacado total-destacado--despesa valor-monetario" id="total-despesas-periodo"></div>
+              <div class="grafico grafico--pequeno"><canvas id="grafico-despesas-mes"></canvas></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="secao-relatorio" aria-labelledby="titulo-geral">
+          <div class="secao-relatorio__cabecalho">
+            <h2 id="titulo-geral">Visão geral</h2>
+            <p>Todo o seu histórico, sem filtro de período.</p>
+          </div>
+          <div class="grade-relatorios">
+            <article class="card span-8">
+              <div class="card-cabecalho">
+                <div><h3>Evolução financeira</h3><p>Receitas e despesas mês a mês</p></div>
+                <div class="resultado-mes" id="resumo-evolucao"></div>
+              </div>
+              <div class="grafico"><canvas id="grafico-evolucao"></canvas></div>
+            </article>
+
+            <article class="card span-4">
+              <div class="card-cabecalho"><div><h3>Progresso das metas</h3><p>Percentual concluído de cada meta</p></div></div>
+              <div class="grafico" id="wrap-metas"><canvas id="grafico-metas-indicador"></canvas></div>
+              <div id="resumo-metas"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../js/icones.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/graficos.js"></script>
+  <script src="../js/relatorios.js"></script>
+</body>
+</html>

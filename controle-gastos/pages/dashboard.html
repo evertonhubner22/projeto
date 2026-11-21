@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F3D2E">
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem('cg_theme') || 'light';
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch (e) {}
+    })();
+  </script>
+  <title>Dashboard — FinFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-pagina="dashboard" data-titulo="Dashboard" data-subtitulo="Visão geral das suas finanças">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="conteudo">
+      <header class="topo" id="topo"></header>
+
+      <main class="pagina">
+        <header class="dash-cabecalho">
+          <div>
+            <span class="dash-cabecalho__periodo"><i data-lucide="calendar"></i><span id="periodo-atual"></span></span>
+            <h1 id="saudacao">Olá</h1>
+            <p id="mensagem-contexto">Carregando seu resumo financeiro…</p>
+          </div>
+          <div class="cabecalho-pagina__acoes dash-cabecalho__acoes">
+            <a class="botao botao--secundario" href="receitas.html?novo=1"><i data-lucide="plus"></i>Receita</a>
+            <a class="botao botao--primario" href="despesas.html?novo=1"><i data-lucide="plus"></i>Despesa</a>
+          </div>
+        </header>
+
+        <section class="grade-cards" id="cards-metricas" aria-label="Indicadores do mês">
+          <div class="kpi"><div class="skeleton skeleton--linha"></div><div class="skeleton skeleton--valor"></div><div class="skeleton skeleton--linha"></div></div>
+          <div class="kpi"><div class="skeleton skeleton--linha"></div><div class="skeleton skeleton--valor"></div><div class="skeleton skeleton--linha"></div></div>
+          <div class="kpi"><div class="skeleton skeleton--linha"></div><div class="skeleton skeleton--valor"></div><div class="skeleton skeleton--linha"></div></div>
+          <div class="kpi"><div class="skeleton skeleton--linha"></div><div class="skeleton skeleton--valor"></div><div class="skeleton skeleton--linha"></div></div>
+        </section>
+
+        <div class="dash-grade">
+          <article class="card span-8">
+            <div class="card-cabecalho">
+              <div>
+                <h3>Receitas x Despesas</h3>
+                <p>Comparativo dos últimos 6 meses</p>
+              </div>
+              <div class="resultado-mes" id="valor-resultado"></div>
+            </div>
+            <div class="grafico" id="wrap-evolucao"><canvas id="grafico-receitas-despesas"></canvas></div>
+            <div id="vazio-evolucao" class="oculto"></div>
+          </article>
+
+          <article class="card span-4">
+            <div class="card-cabecalho">
+              <div>
+                <h3>Distribuição da renda</h3>
+                <p>Quanto já foi gasto este mês</p>
+              </div>
+            </div>
+            <div id="wrap-distribuicao">
+              <div class="rosca">
+                <canvas id="grafico-distribuicao"></canvas>
+                <div class="rosca__centro"><strong id="distribuicao-pct">0%</strong><span>comprometido</span></div>
+              </div>
+              <div class="legenda" id="legenda-distribuicao"></div>
+            </div>
+            <div id="vazio-distribuicao" class="oculto"></div>
+          </article>
+
+          <article class="card span-5">
+            <div class="card-cabecalho">
+              <div>
+                <h3>Gastos por categoria</h3>
+                <p>Despesas do mês em relação à renda</p>
+              </div>
+              <a href="relatorios.html" class="link-ver-tudo">Relatórios<i data-lucide="arrow-right"></i></a>
+            </div>
+            <div class="grafico grafico--medio" id="wrap-categorias"><canvas id="grafico-categorias"></canvas></div>
+            <div class="resumo-grafico" id="resumo-categorias"></div>
+          </article>
+
+          <article class="card span-7" id="card-planejamento">
+            <div class="card-cabecalho">
+              <div>
+                <h3>Planejamento financeiro do mês</h3>
+                <p>Quanto você tem, quanto gastou e quanto ainda pode gastar</p>
+              </div>
+              <button class="botao botao--secundario botao--pequeno" id="botao-definir-renda" type="button"><i data-lucide="wallet"></i>Definir renda mensal</button>
+            </div>
+            <div id="conteudo-planejamento"></div>
+          </article>
+
+          <article class="card span-7">
+            <div class="card-cabecalho">
+              <div>
+                <h3>Últimas movimentações</h3>
+                <p>Seus lançamentos mais recentes</p>
+              </div>
+            </div>
+            <div id="lista-movimentacoes"></div>
+          </article>
+
+          <div class="coluna-empilhada span-5">
+            <article class="card">
+              <div class="card-cabecalho">
+                <div>
+                  <h3>Metas financeiras</h3>
+                  <p>Seu progresso até agora</p>
+                </div>
+                <a href="metas.html" class="link-ver-tudo">Ver todas<i data-lucide="arrow-right"></i></a>
+              </div>
+              <div id="lista-metas-resumo"></div>
+            </article>
+
+            <article class="card">
+              <div class="card-cabecalho">
+                <div>
+                  <h3>Alertas e insights</h3>
+                  <p>Sugestões baseadas nos seus dados</p>
+                </div>
+              </div>
+              <div id="lista-insights"></div>
+            </article>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: definir renda mensal -->
+  <div class="modal-fundo" id="modal-renda">
+    <div class="modal modal--estreito">
+      <div class="modal-cabecalho">
+        <div>
+          <h3>Renda mensal</h3>
+          <p>Usada para calcular o planejamento do mês.</p>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal="modal-renda" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-renda" novalidate>
+        <div class="campo" id="campo-renda">
+          <label for="input-renda">Valor da sua renda mensal (R$)</label>
+          <input type="number" id="input-renda" min="0" step="0.01" placeholder="0,00" required>
+          <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe um valor válido maior que zero.</span></span>
+        </div>
+        <div class="modal-rodape">
+          <button type="button" class="botao botao--secundario" data-fechar-modal="modal-renda">Cancelar</button>
+          <button type="submit" class="botao botao--primario">Salvar renda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../js/icones.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/graficos.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>
