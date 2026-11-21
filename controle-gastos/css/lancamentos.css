@@ -1,0 +1,35 @@
+/* ============================================================
+   lancamentos.css — receitas e despesas (tabelas, parcelas)
+   ============================================================ */
+
+.linha-destaque { animation: destaque-linha 1.8s ease-out; }
+@keyframes destaque-linha {
+  0% { background: var(--cor-receita-fundo); box-shadow: inset 3px 0 0 var(--cor-interativa); }
+  100% { background: transparent; box-shadow: inset 3px 0 0 transparent; }
+}
+
+.tabela .selo-parcela { margin-right: 2px; }
+
+/* parcelas a pagar */
+.parcelas-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 32px; }
+.parcelas-total { text-align: right; }
+.parcelas-total small { display: block; font-size: 0.76rem; font-weight: 700; color: var(--cor-texto-suave); }
+.parcelas-total strong { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; color: var(--cor-despesa); }
+
+.parcela-item { padding: 14px 0; border-bottom: 1px solid var(--cor-borda); }
+.parcela-item:first-child { padding-top: 0; }
+.parcela-item:last-child { border-bottom: none; padding-bottom: 0; }
+.parcela-item__topo { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; margin-bottom: 10px; }
+.parcela-item__nome { font-weight: 700; }
+.parcela-item__meta { font-size: 0.8rem; color: var(--cor-texto-suave); margin-top: 2px; }
+.parcela-item__restante { text-align: right; font-weight: 800; white-space: nowrap; }
+.parcela-item__restante small { display: block; font-size: 0.72rem; font-weight: 600; color: var(--cor-texto-fraco); }
+.parcela-item .barra-progresso { height: 6px; }
+
+.titulo-lateral { font-size: 0.86rem; font-weight: 700; margin-bottom: 14px; color: var(--cor-texto-suave); }
+.mes-parcelas { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 7px 0; font-size: 0.84rem; font-weight: 600; }
+.mes-parcelas .barra-progresso { height: 8px; }
+
+@media (max-width: 900px) {
+  .parcelas-layout { grid-template-columns: 1fr; gap: 26px; }
+}
