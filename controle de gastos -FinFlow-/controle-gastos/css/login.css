@@ -1,0 +1,83 @@
+/* ============================================================
+   login.css — login, cadastro e recuperação de senha
+   ============================================================ */
+
+.tela-auth { min-height: 100vh; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); }
+
+/* ---------- Painel da marca ---------- */
+.auth-vitrine {
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 48px 56px;
+  color: #EAF4EE;
+  background:
+    radial-gradient(120% 80% at 100% 0%, #1B6A50 0%, rgba(27, 106, 80, 0) 55%),
+    linear-gradient(165deg, #0F3D2E 0%, #0A2A20 100%);
+}
+.auth-vitrine::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 39px, rgba(234, 244, 238, 0.05) 40px);
+  mask-image: linear-gradient(to bottom, #000 0%, transparent 75%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 75%);
+}
+.auth-vitrine__arte { position: absolute; right: 0; bottom: 36px; width: 62%; max-width: 460px; opacity: 0.9; pointer-events: none; }
+.auth-vitrine > *:not(.auth-vitrine__arte) { position: relative; }
+
+.auth-vitrine__marca { display: flex; align-items: center; gap: 12px; }
+.auth-vitrine__marca .logo-selo { background: rgba(255, 255, 255, 0.10); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16); }
+.auth-vitrine__marca strong { font-family: var(--fonte-marca); font-weight: 400; font-size: 1.9rem; letter-spacing: -0.01em; }
+
+.auth-vitrine__titulo { font-family: var(--fonte-marca); font-weight: 400; font-size: clamp(2.2rem, 3.6vw, 3.3rem); line-height: 1.08; max-width: 15ch; letter-spacing: -0.015em; }
+.auth-vitrine__texto { margin-top: 18px; max-width: 42ch; color: rgba(234, 244, 238, 0.72); font-size: 1rem; line-height: 1.6; }
+
+.auth-vitrine__lista { display: flex; flex-direction: column; gap: 12px; margin-top: 30px; }
+.auth-vitrine__lista li { display: flex; align-items: center; gap: 12px; font-size: 0.92rem; font-weight: 600; color: rgba(234, 244, 238, 0.9); }
+.auth-vitrine__lista li span {
+  width: 28px; height: 28px; border-radius: 9px; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.10); color: #E8D08A;
+}
+.auth-vitrine__lista li svg.lucide { width: 15px; height: 15px; }
+.auth-vitrine__rodape { font-size: 0.8rem; color: rgba(234, 244, 238, 0.55); }
+
+/* ---------- Lado do formulário ---------- */
+.auth-form-lado { position: relative; display: flex; align-items: center; justify-content: center; padding: 48px 32px; background: var(--cor-fundo); }
+.auth-tema { position: absolute; top: 20px; right: 20px; }
+.auth-caixa { width: 100%; max-width: 410px; animation: pagina-entrar 0.6s var(--ease) both; }
+.auth-logo-mobile { display: none; align-items: center; gap: 10px; margin-bottom: 28px; }
+.auth-logo-mobile strong { font-family: var(--fonte-marca); font-weight: 400; font-size: 1.7rem; }
+.auth-caixa h1 { font-size: 2.5rem; margin-bottom: 8px; }
+.auth-caixa .subtitulo { color: var(--cor-texto-suave); margin-bottom: 30px; }
+.auth-linha-acoes { display: flex; justify-content: flex-end; margin: -6px 0 22px; font-size: 0.84rem; }
+.auth-rodape { text-align: center; font-size: 0.88rem; color: var(--cor-texto-suave); margin-top: 26px; }
+.auth-rodape a { color: var(--cor-interativa); font-weight: 700; }
+.auth-rodape a:hover { text-decoration: underline; text-underline-offset: 3px; }
+[data-tema="dark"] .auth-rodape a { color: var(--cor-receita); }
+
+/* ---------- Login com Google ---------- */
+.auth-divisor { display: flex; align-items: center; gap: 14px; margin: 22px 0 18px; color: var(--cor-texto-suave); font-size: 0.82rem; }
+.auth-divisor::before, .auth-divisor::after { content: ''; flex: 1; height: 1px; background: var(--cor-borda); }
+.botao-google { display: flex; align-items: center; justify-content: center; gap: 12px; background: transparent; color: inherit; border: 1px solid var(--cor-borda); font-weight: 700; }
+.botao-google:hover:not(:disabled) { background: color-mix(in srgb, var(--cor-borda) 35%, transparent); }
+.botao-google svg { width: 20px; height: 20px; flex-shrink: 0; }
+
+.forca-senha { display: flex; gap: 5px; margin-top: 9px; }
+.forca-senha span { height: 4px; flex: 1; border-radius: 4px; background: var(--cor-borda); transition: background-color 0.25s ease; }
+
+.auth-sucesso { text-align: center; }
+.auth-sucesso__icone {
+  width: 68px; height: 68px; border-radius: 22px; margin: 0 auto 22px;
+  display: grid; place-items: center;
+  background: var(--cor-receita-fundo); color: var(--cor-receita);
+  box-shadow: 0 0 0 9px color-mix(in srgb, var(--cor-receita-fundo) 45%, transparent);
+  animation: surgir 0.5s var(--ease) both;
+}
+.auth-sucesso__icone svg.lucide { width: 30px; height: 30px; }
+@keyframes surgir { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 960px) {
+  .tela-auth { grid-template-columns: 1fr; }
+  .auth-vitrine { display: none; }
+  .auth-logo-mobile { display: flex; }
+  .auth-form-lado { align-items: flex-start; padding-top: 80px; }
+}
