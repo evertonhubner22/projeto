@@ -1,0 +1,41 @@
+/* ============================================================
+   admin.css — painel administrativo
+   ============================================================ */
+
+.admin-barra { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 18px; }
+
+.usuario-celula { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.usuario-celula .avatar-circulo { width: 38px; height: 38px; }
+.usuario-celula__nome { font-weight: 700; }
+.usuario-celula__email { font-size: 0.8rem; color: var(--cor-texto-fraco); }
+
+.status-ponto { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.84rem; }
+.status-ponto::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--cor-receita); box-shadow: 0 0 0 3px var(--cor-receita-fundo); }
+.status-ponto--inativo { color: var(--cor-texto-suave); }
+.status-ponto--inativo::before { background: var(--cor-texto-fraco); box-shadow: 0 0 0 3px var(--cor-superficie-alt); }
+
+.aviso-demo {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px; margin-bottom: 22px;
+  border-radius: 14px; background: var(--cor-destaque-fundo);
+  font-size: 0.86rem; color: var(--cor-texto-suave); line-height: 1.5;
+}
+.aviso-demo svg.lucide { width: 19px; height: 19px; color: var(--cor-destaque); margin-top: 1px; }
+
+.grupo-categorias + .grupo-categorias { margin-top: 26px; }
+.grupo-categorias h4 { font-size: 0.9rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.grupo-categorias h4 span { font-size: 0.74rem; font-weight: 700; padding: 1px 8px; border-radius: 999px; background: var(--cor-superficie-alt); color: var(--cor-texto-suave); }
+.lista-categorias { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip-categoria {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 8px 6px 7px; border-radius: 14px;
+  background: var(--cor-superficie); border: 1px solid var(--cor-borda);
+  font-size: 0.86rem; font-weight: 600;
+  transition: border-color 0.15s ease;
+}
+.chip-categoria:hover { border-color: var(--cor-borda-forte); }
+.chip-categoria .cat-chip__icone { width: 28px; height: 28px; border-radius: 9px; }
+.chip-categoria .cat-chip__icone svg.lucide { width: 15px; height: 15px; }
+.chip-categoria button { width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; color: var(--cor-texto-fraco); }
+.chip-categoria button:hover { background: var(--cor-despesa-fundo); color: var(--cor-despesa); }
+.chip-categoria button svg.lucide { width: 14px; height: 14px; }
