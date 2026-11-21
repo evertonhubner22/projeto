@@ -1,0 +1,51 @@
+/* ============================================================
+   responsive.css — breakpoints globais
+   desktop grande · notebook · tablet · smartphone
+   ============================================================ */
+
+/* Tablet e abaixo: sidebar vira gaveta */
+@media (max-width: 900px) {
+  .app-shell, .app-shell--recolhida { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    width: min(300px, 86vw);
+    transform: translateX(-102%);
+    transition: transform 0.32s var(--ease);
+    box-shadow: var(--sombra-elevada);
+  }
+  .sidebar.sidebar--movel-aberta { transform: translateX(0); }
+
+  /* a gaveta sempre mostra os rótulos, mesmo se estava recolhida */
+  .app-shell--recolhida .marca-texto,
+  .app-shell--recolhida .menu-item span,
+  .app-shell--recolhida .usuario-mini__info { display: revert; }
+  .app-shell--recolhida .menu-grupo-titulo { display: block; }
+  .app-shell--recolhida .marca { justify-content: flex-start; padding-inline: 8px; }
+  .app-shell--recolhida .menu-item { justify-content: flex-start; padding: 0 12px; }
+  .app-shell--recolhida .sidebar-rodape { flex-direction: row; }
+  .app-shell--recolhida .usuario-mini { flex: 1; padding: 6px; }
+  .app-shell--recolhida .menu-item--ativo::before { left: -16px; }
+
+  .topo { padding: 0 20px; }
+  .pagina { padding: 22px 20px 56px; }
+}
+
+/* Smartphone */
+@media (max-width: 560px) {
+  .topo { padding: 0 14px; }
+  .pagina { padding: 18px 14px 48px; }
+  .chip-usuario span { display: none; }
+  .chip-usuario { padding: 0 4px; }
+  .cabecalho-pagina { margin-bottom: 20px; }
+  .cabecalho-pagina__acoes { width: 100%; }
+  .cabecalho-pagina__acoes .botao { flex: 1; }
+  .card { padding: 18px; }
+  .kpi { padding: 18px; }
+  #toast-container { left: 14px; right: 14px; bottom: 14px; }
+  .toast { max-width: none; }
+}
+
+/* Monitores grandes */
+@media (min-width: 1700px) {
+  .pagina { max-width: 1560px; }
+}
