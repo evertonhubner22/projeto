@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-tema="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0F3D2E">
+  <script>
+    (function () {
+      try {
+        var tema = localStorage.getItem('cg_theme') || 'light';
+        document.documentElement.setAttribute('data-tema', tema);
+      } catch (e) {}
+    })();
+  </script>
+  <title>Painel Administrativo — FinFlow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body data-pagina="admin" data-titulo="Painel Administrativo" data-subtitulo="Visão geral do sistema">
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <div class="conteudo">
+      <header class="topo" id="topo"></header>
+
+      <main class="pagina">
+        <header class="cabecalho-pagina">
+          <div>
+            <h1>Painel administrativo</h1>
+            <p id="fonte-dados">Acompanhe o uso do sistema e gerencie os usuários cadastrados.</p>
+          </div>
+        </header>
+
+        <section class="grade-cards" id="cards-admin" aria-label="Indicadores do sistema"></section>
+
+        <div class="admin-barra">
+          <div class="segmentado" role="tablist" aria-label="Seções do painel">
+            <button class="segmentado__item segmentado__item--ativo aba-admin" data-aba="usuarios" role="tab" type="button"><i data-lucide="users"></i>Usuários</button>
+            <button class="segmentado__item aba-admin" data-aba="categorias" role="tab" type="button"><i data-lucide="tags"></i>Categorias</button>
+          </div>
+        </div>
+
+        <!-- Aba: usuários -->
+        <section class="card card--sem-padding" id="aba-usuarios">
+          <div class="barra-filtros">
+            <div class="input-busca" id="campo-busca-usuarios">
+              <i data-lucide="search"></i>
+              <input type="text" id="busca-usuarios" placeholder="Buscar por nome ou e-mail…" autocomplete="off" aria-label="Buscar usuários">
+              <button type="button" class="input-busca__limpar" id="limpar-busca-usuarios" aria-label="Limpar busca"><i data-lucide="x"></i></button>
+            </div>
+            <span class="barra-filtros__contagem" id="contagem-usuarios"></span>
+          </div>
+          <div class="tabela-wrap">
+            <table class="tabela tabela--empilhada">
+              <thead>
+                <tr>
+                  <th>Usuário</th>
+                  <th>Tipo</th>
+                  <th>Cadastro</th>
+                  <th>Status</th>
+                  <th><span class="sr-only">Ações</span></th>
+                </tr>
+              </thead>
+              <tbody id="corpo-tabela-usuarios"></tbody>
+            </table>
+          </div>
+          <div id="vazio-usuarios" class="estado-vazio oculto">
+            <div class="estado-vazio__icone"><i data-lucide="search-x"></i></div>
+            <h3>Nenhum usuário encontrado</h3>
+            <p>Tente buscar por outro nome ou e-mail.</p>
+          </div>
+        </section>
+
+        <!-- Aba: categorias -->
+        <section class="card oculto" id="aba-categorias">
+          <div class="card-cabecalho">
+            <div>
+              <h3>Categorias do sistema</h3>
+              <p>Gerenciamento de categorias (demonstração de interface). As categorias padrão são usadas nos formulários de receitas e despesas.</p>
+            </div>
+            <button class="botao botao--primario" id="botao-nova-categoria" type="button"><i data-lucide="plus"></i>Nova categoria</button>
+          </div>
+
+          <div class="grupo-categorias">
+            <h4>Categorias de despesa <span id="contagem-cat-despesa"></span></h4>
+            <div class="lista-categorias" id="lista-categorias-despesa"></div>
+          </div>
+          <div class="grupo-categorias">
+            <h4>Categorias de receita <span id="contagem-cat-receita"></span></h4>
+            <div class="lista-categorias" id="lista-categorias-receita"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal: nova categoria (demonstração) -->
+  <div class="modal-fundo" id="modal-categoria">
+    <div class="modal modal--estreito">
+      <div class="modal-cabecalho">
+        <div>
+          <h3>Nova categoria</h3>
+          <p>Demonstração de interface.</p>
+        </div>
+        <button type="button" class="modal-fechar" data-fechar-modal="modal-categoria" aria-label="Fechar"><i data-lucide="x"></i></button>
+      </div>
+      <form id="form-categoria" novalidate>
+        <div class="campo" id="campo-categoria-nome">
+          <label for="categoria-nome">Nome da categoria</label>
+          <input type="text" id="categoria-nome" required>
+          <span class="campo-erro"><i data-lucide="circle-alert"></i><span>Informe um nome.</span></span>
+        </div>
+        <div class="campo">
+          <label for="categoria-tipo">Aplicar em</label>
+          <select id="categoria-tipo">
+            <option value="despesa">Despesas</option>
+            <option value="receita">Receitas</option>
+          </select>
+        </div>
+        <div class="modal-rodape">
+          <button type="button" class="botao botao--secundario" data-fechar-modal="modal-categoria">Cancelar</button>
+          <button type="submit" class="botao botao--primario">Adicionar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="../js/icones.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/app.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

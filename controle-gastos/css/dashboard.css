@@ -1,0 +1,86 @@
+/* ============================================================
+   dashboard.css — painel principal
+   ============================================================ */
+
+.dash-cabecalho { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 26px; }
+.dash-cabecalho h1 { font-size: clamp(2.2rem, 4vw, 3.1rem); }
+.dash-cabecalho p { color: var(--cor-texto-suave); margin-top: 8px; font-size: 1rem; max-width: 58ch; }
+.dash-cabecalho__periodo {
+  display: inline-flex; align-items: center; gap: 8px;
+  height: 30px; padding: 0 12px; margin-bottom: 14px;
+  border-radius: 999px;
+  background: var(--cor-superficie); border: 1px solid var(--cor-borda);
+  font-size: 0.8rem; font-weight: 700; color: var(--cor-texto-suave);
+}
+.dash-cabecalho__periodo svg.lucide { width: 15px; height: 15px; color: var(--cor-interativa); }
+
+.dash-grade { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+.span-4 { grid-column: span 4; }
+.span-5 { grid-column: span 5; }
+.span-6 { grid-column: span 6; }
+.span-7 { grid-column: span 7; }
+.span-8 { grid-column: span 8; }
+.span-12 { grid-column: 1 / -1; }
+.coluna-empilhada { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+/* destaque do resultado do mês dentro do card de gráfico */
+.resultado-mes { text-align: right; }
+.resultado-mes small { display: block; font-size: 0.74rem; font-weight: 700; color: var(--cor-texto-suave); }
+.resultado-mes strong { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.03em; }
+.resultado-mes--positivo strong { color: var(--cor-receita); }
+.resultado-mes--negativo strong { color: var(--cor-despesa); }
+
+.resumo-grafico { margin-top: 14px; font-size: 0.84rem; color: var(--cor-texto-suave); font-weight: 600; }
+
+/* planejamento */
+.plano-numeros { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 22px; }
+.plano-numero { padding: 14px 16px; background: var(--cor-superficie-alt); border-radius: 14px; }
+.plano-numero small { display: block; font-size: 0.76rem; font-weight: 700; color: var(--cor-texto-suave); margin-bottom: 4px; }
+.plano-numero strong { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.02em; }
+.plano-numero--positivo strong { color: var(--cor-receita); }
+.plano-numero--negativo strong { color: var(--cor-despesa); }
+.plano-barra-topo { display: flex; justify-content: space-between; font-size: 0.82rem; font-weight: 700; margin-bottom: 8px; }
+.plano-nota {
+  display: flex; gap: 10px; align-items: flex-start;
+  margin-top: 16px; padding: 12px 14px;
+  font-size: 0.84rem; line-height: 1.5; color: var(--cor-texto-suave);
+  border-radius: 12px; background: var(--cor-destaque-fundo);
+}
+.plano-nota svg.lucide { width: 18px; height: 18px; color: var(--cor-destaque); margin-top: 1px; }
+.plano-nota strong { color: var(--cor-texto); }
+
+/* últimas movimentações */
+.mov-item { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--cor-borda); }
+.mov-item:first-child { padding-top: 0; }
+.mov-item:last-child { border-bottom: none; padding-bottom: 0; }
+.mov-item__info { flex: 1; min-width: 0; }
+.mov-item__titulo { font-weight: 700; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mov-item__meta { font-size: 0.78rem; color: var(--cor-texto-fraco); }
+.mov-item__valor { font-weight: 800; font-size: 0.92rem; white-space: nowrap; }
+.mov-item__valor--receita { color: var(--cor-receita); }
+.mov-item__valor--despesa { color: var(--cor-despesa); }
+
+/* metas resumidas */
+.mini-meta { display: flex; align-items: center; gap: 13px; padding: 12px 0; border-bottom: 1px solid var(--cor-borda); }
+.mini-meta:first-child { padding-top: 0; }
+.mini-meta:last-child { border-bottom: none; padding-bottom: 0; }
+.mini-meta__icone {
+  width: 38px; height: 38px; border-radius: 12px; flex-shrink: 0;
+  display: grid; place-items: center;
+  background: var(--cor-receita-fundo); color: var(--cor-receita);
+}
+.mini-meta__icone svg.lucide { width: 19px; height: 19px; }
+.mini-meta--concluida .mini-meta__icone { background: var(--cor-destaque-fundo); color: var(--cor-destaque); }
+.mini-meta__info { flex: 1; min-width: 0; }
+.mini-meta__topo { display: flex; justify-content: space-between; gap: 8px; font-size: 0.86rem; margin-bottom: 7px; }
+.mini-meta__nome { font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mini-meta__pct { font-weight: 800; color: var(--cor-texto-suave); }
+
+@media (max-width: 1100px) {
+  .span-4, .span-5, .span-6, .span-7, .span-8 { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .plano-numeros { grid-template-columns: 1fr; }
+  .dash-cabecalho__acoes { width: 100%; }
+  .dash-cabecalho__acoes .botao { flex: 1; }
+}
