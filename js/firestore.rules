@@ -1,0 +1,52 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function logado() {
+      return request.auth != null;
+    }
+
+    function donoDe(uid) {
+      return logado() && request.auth.uid == uid;
+    }
+
+    // Administrador = existe o documento admins/{uid} (criado só pelo Console do Firebase)
+    function ehAdmin() {
+      return logado() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Conta desativada pelo admin perde o acesso aos próprios dados
+    function contaAtiva(uid) {
+      let perfil = /databases/$(database)/documents/perfis/$(uid);
+      return !exists(perfil) || get(perfil).data.ativo != false;
+    }
+
+    // Lista de administradores: ninguém escreve por aqui
+    match /admins/{uid} {
+      allow read: if donoDe(uid) || ehAdmin();
+      allow write: if false;
+    }
+
+    // Perfis: o dono cria/atualiza os dados básicos; só o admin muda "ativo"
+    match /perfis/{uid} {
+      allow read: if donoDe(uid) || ehAdmin();
+
+      allow create: if donoDe(uid)
+        && request.resource.data.keys().hasOnly(['nome', 'email', 'foto', 'ativo', 'criadoEm', 'ultimoAcesso'])
+        && request.resource.data.ativo == true;
+
+      allow update: if (donoDe(uid)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['nome', 'email', 'foto', 'ultimoAcesso']))
+        || (ehAdmin()
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['ativo']));
+
+      allow delete: if false;
+    }
+
+    // Dados financeiros: dono (se ativo) lê e escreve; admin só lê
+    match /users/{userId}/{document=**} {
+      allow read, write: if donoDe(userId) && contaAtiva(userId);
+      allow read: if ehAdmin();
+    }
+  }
+}
